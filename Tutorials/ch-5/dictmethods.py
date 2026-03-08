@@ -12,4 +12,7 @@ marks = {
 
 # print(marks.get("Harry2")) # Prints none
 # print(marks["Harry2"]) #Returns an error
+# print(len(marks)) length of dictionary
 # print(marks)
+
+marks.clear() #clears dict

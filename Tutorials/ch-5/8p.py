@@ -1,0 +1,1 @@
+# 2 separate index's with same languages but different names, works as expected

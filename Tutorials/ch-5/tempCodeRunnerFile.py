@@ -1,2 +1,2 @@
-print(marks.keys())
-# print(marks.values())
+    name = input("Enter your name: ")
+    subject = input("Enter your favorite subject: ")
