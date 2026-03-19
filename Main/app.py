@@ -42,24 +42,48 @@ with st.sidebar:
     🤘 **Surprise:** Rock On \n
     🤏 **Google:** Thumb Only \n
     👌 **Youtube:** OK Sign
-   \n More Gestures below 
+   \n # More Gestures below 
             
             \n (0 for thumb, 1 for index, 2 for middle, 3 for ring, 4 for pinky)
         
-        (0, 1, 0, 0, 0): "Point" \n
-        (0, 1, 1, 0, 0): "Peace" \n
-        (1, 1, 1, 1, 1): "Hello" \n
-        (0, 0, 0, 0, 0): "Stop" \n
-        (0, 0, 0, 0, 1): "News \n
-        (1, 0, 0, 0, 1): "Surprise \n
-        (0, 1, 1, 1, 0): "Weather \n
-        (1, 0, 0, 0, 0): "Google \n
-        (0, 1, 1, 1, 1): "Search \n
-        (1, 1, 0, 0, 0): "Play \n
-        (0, 0, 1, 1, 1): "Youtube \n
-        (1, 1, 0, 0, 1): "Love \n
-        (1, 1, 1, 0, 0): "Help \n
-        (0, 0, 0, 1, 1): "Facebook"
+    (0, 1, 0, 0, 0): "Point",        Index Only \n
+    (0, 1, 1, 0, 0): "Peace",        Index + Middle \n
+    (1, 1, 1, 1, 1): "Hello",        All Open \n
+    (0, 0, 0, 0, 0): "Stop",         Fist \n
+    (0, 0, 0, 0, 1): "News",         Pinky Only \n
+    (1, 0, 0, 0, 1): "Surprise",     Thumb + Pinky (Shaka) \n
+    (0, 1, 1, 1, 0): "Weather",      Index, Middle, Ring \n
+    (1, 0, 0, 0, 0): "Google",       Thumb Only \n
+    (0, 1, 1, 1, 1): "Search",       4 Fingers (No Thumb) \n
+    (1, 1, 0, 0, 0): "Play",         Thumb + Index (L-Shape) \n
+    (0, 0, 1, 1, 1): "Youtube",      OK Sign (Middle, Ring, Pinky) \n
+    (1, 1, 0, 0, 1): "Love",         I Love You (Thumb, Index, Pinky) \n
+    (1, 1, 1, 0, 0): "Help",         Thumb, Index, Middle \n
+    (0, 0, 0, 1, 1): "Facebook",     Ring + Pinky \n
+
+    # Middle finger only  \n
+    (0, 0, 1, 0, 0): "Cancel", \n
+    # Ring finger only \n
+    (0, 0, 0, 1, 0): "Next",\n
+            \n
+    (0, 1, 0, 1, 0): "Pause",        Index + Ring \n
+    (0, 1, 0, 0, 1): "Agree",        Index + Pinky (Promise) \n
+    (0, 0, 1, 1, 0): "Cut",          Middle + Ring \n
+    (0, 0, 1, 0, 1): "Music",        Middle + Pinky \n
+    (0, 1, 1, 0, 1): "Network",      Index + Middle + Pinky (Spider-man web) \n
+    (0, 1, 0, 1, 1): "Wait",         Index + Ring + Pinky \n
+
+    (1, 0, 1, 0, 0): "Quick",        Thumb + Middle (Snap) \n
+    (1, 0, 0, 1, 0): "Call",         Thumb + Ring \n
+    (1, 0, 1, 1, 0): "Calculate",    Thumb + Middle + Ring \n
+    (1, 0, 0, 1, 1): "Phone",        Thumb + Ring + Pinky \n
+    (1, 0, 1, 0, 1): "Party",        Thumb + Middle + Pinky \n
+    (1, 0, 1, 1, 1): "Explain",      Thumb + Middle + Ring + Pinky \n
+
+    (1, 1, 0, 1, 0): "Measure",      Thumb + Index + Ring \n
+    (1, 1, 0, 1, 1): "Volume",       Thumb + Index + Ring + Pinky \n
+    (1, 1, 1, 0, 1): "Email",        Thumb + Index + Middle + Pinky \n
+    (1, 1, 1, 1, 0): "Almost"        Thumb + Index + Middle + Ring (No Pinky) \n
     """)
 
 # --- HELPER FUNCTIONS ---
@@ -146,20 +170,43 @@ st.title("Echo Motion Dashboard")
 col1, col2 = st.columns([2, 1.2]) 
 
 gesture_map = {
-    (0, 1, 0, 0, 0): "Point",
-    (0, 1, 1, 0, 0): "Peace",
-    (1, 1, 1, 1, 1): "Hello",
-    (0, 0, 0, 0, 0): "Stop",
-    (0, 0, 0, 0, 1): "News",
-    (1, 0, 0, 0, 1): "Surprise",
-    (0, 1, 1, 1, 0): "Weather",
-    (1, 0, 0, 0, 0): "Google",
-    (0, 1, 1, 1, 1): "Search",
-    (1, 1, 0, 0, 0): "Play",
-    (0, 0, 1, 1, 1): "Youtube",
-    (1, 1, 0, 0, 1): "Love",
-    (1, 1, 1, 0, 0): "Help",
-    (0, 0, 0, 1, 1): "Facebook"
+    (0, 1, 0, 0, 0): "Point",        # Index Only
+    (0, 1, 1, 0, 0): "Peace",        # Index + Middle
+    (1, 1, 1, 1, 1): "Hello",        # All Open
+    (0, 0, 0, 0, 0): "Stop",         # Fist
+    (0, 0, 0, 0, 1): "News",         # Pinky Only
+    (1, 0, 0, 0, 1): "Surprise",     # Thumb + Pinky (Shaka)
+    (0, 1, 1, 1, 0): "Weather",      # Index, Middle, Ring
+    (1, 0, 0, 0, 0): "Google",       # Thumb Only
+    (0, 1, 1, 1, 1): "Search",       # 4 Fingers (No Thumb)
+    (1, 1, 0, 0, 0): "Play",         # Thumb + Index (L-Shape)
+    (0, 0, 1, 1, 1): "Youtube",      # OK Sign (Middle, Ring, Pinky)
+    (1, 1, 0, 0, 1): "Love",         # I Love You (Thumb, Index, Pinky)
+    (1, 1, 1, 0, 0): "Help",         # Thumb, Index, Middle
+    (0, 0, 0, 1, 1): "Facebook",     # Ring + Pinky
+
+    # Middle finger only 
+    (0, 0, 1, 0, 0): "Cancel",
+    # Ring finger only
+    (0, 0, 0, 1, 0): "Next",
+    (0, 1, 0, 1, 0): "Pause",        # Index + Ring
+    (0, 1, 0, 0, 1): "Agree",        # Index + Pinky (Promise)
+    (0, 0, 1, 1, 0): "Cut",          # Middle + Ring
+    (0, 0, 1, 0, 1): "Music",        # Middle + Pinky
+    (0, 1, 1, 0, 1): "Network",      # Index + Middle + Pinky (Spider-man web)
+    (0, 1, 0, 1, 1): "Wait",         # Index + Ring + Pinky
+
+    (1, 0, 1, 0, 0): "Quick",        # Thumb + Middle (Snap)
+    (1, 0, 0, 1, 0): "Call",         # Thumb + Ring
+    (1, 0, 1, 1, 0): "Calculate",    # Thumb + Middle + Ring
+    (1, 0, 0, 1, 1): "Phone",        # Thumb + Ring + Pinky
+    (1, 0, 1, 0, 1): "Party",        # Thumb + Middle + Pinky
+    (1, 0, 1, 1, 1): "Explain",      # Thumb + Middle + Ring + Pinky
+
+    (1, 1, 0, 1, 0): "Measure",      # Thumb + Index + Ring
+    (1, 1, 0, 1, 1): "Volume",       # Thumb + Index + Ring + Pinky
+    (1, 1, 1, 0, 1): "Email",        # Thumb + Index + Middle + Pinky
+    (1, 1, 1, 1, 0): "Almost"        # Thumb + Index + Middle + Ring (No Pinky)
 }
 
 with col2:
