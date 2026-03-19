@@ -9,7 +9,7 @@
 ## Key Features
 
 * **32-Gesture Recognition:** Utilizes a complete binary finger-state map (Thumb to Pinky) for 32 unique commands.
-* **Gemini AI Integration:** Uses `gemini-1.5-flash` to turn raw signs into natural, helpful sentences.
+* **Gemini AI Integration:** Uses `gemini-3-flash` to turn raw signs into natural, helpful sentences.
 * **Web Dashboard:** A sleek, modern frontend built with **Streamlit** featuring live chat logs and real-time camera processing.
 * **Threaded Audio (Jarvis):** Custom Windows SAPI integration that allows Jarvis to speak in the background without freezing the video feed.
 * **Local Automation:**
