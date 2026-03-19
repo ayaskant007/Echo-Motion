@@ -34,7 +34,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/Echo-Motion.git
+git clone https://github.com/ayaskant007/Echo-Motion.git
 cd Echo-Motion
 ```
 
