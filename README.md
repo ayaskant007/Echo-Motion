@@ -69,27 +69,6 @@ Echo Motion uses a binary state system `(Thumb, Index, Middle, Ring, Pinky)` whe
 | `(1, 1, 0, 0, 0)` | **Play** | Triggers YouTube song search |
 | `(0, 0, 0, 0, 1)` | **News** | Reads top headlines via News API |
 | `(1, 1, 0, 0, 1)` | **Love** | "I Love You" sign |
-| *+ 26 more...* | *See source* | *Custom system triggers* |
-
----
-
-## Tutorials & Development History
-
-### Phase 1: The Local Script
-Originally developed as a local Python script using a floating `cv2.imshow` window. This phase focused on perfecting the MediaPipe landmark logic and coordinate math.
-
-### Phase 2: AI Brain Implementation
-Integration of the Gemini API. Instead of just static "if/else" commands, Jarvis began understanding context, turning a string of signs into a fluid sentence.
-
-### Phase 3: The Streamlit Migration
-To solve the "Terminal-only" limitation, the project was migrated to a web interface. This involved:
-* Implementing **Session State** to prevent Jarvis from "forgetting" the chat history on every frame refresh.
-* Moving camera processing into a loop that updates a `st.empty()` container.
-
-### Phase 4: Solving the Threading Crisis
-The final hurdle was `win32com` crashing in a multi-threaded environment. We solved this by:
-1.  Using `pythoncom.CoInitialize()` inside a background thread.
-2.  Allowing the speaker to run as a `daemon` so the UI remains responsive.
 
 ---
 
