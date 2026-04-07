@@ -1,5 +1,5 @@
 # Important Note
-*For the streamlit part it is not hostable on streamlit since my streamlit app requires a windows machine to run and streamlit uses linux, my project requires a windows machine since the tts is the windows one and all the alternatives like gtts are slow as well as paid. I will still try to fix it tho but it dint work the first time i tried to fix it and even opencv which is essential for my project doesnt work if i host on streamlit, i would have to switch to streamlit webrtc which is far more complex and would require me rewriting the entire camera capture logic.*
+*For the streamlit part it is not hostable on streamlit since my streamlit app requires a windows machine to run and streamlit uses linux, my project requires a windows machine since the tts is the windows one and all the alternatives like gtts are slow as well as paid and even opencv which is essential for my project doesnt work if i host on streamlit, i would have to switch to streamlit webrtc which is far more complex and would require me rewriting the entire camera capture logic.*
 
 
 
