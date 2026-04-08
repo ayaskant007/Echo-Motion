@@ -1,14 +1,3 @@
-# Important Note
-*For the streamlit part it is not hostable on streamlit since my streamlit app requires a windows machine to run and streamlit uses linux, my project requires a windows machine since the tts is the windows one and all the alternatives like gtts are slow as well as paid and even opencv which is essential for my project doesnt work if i host on streamlit, i would have to switch to streamlit webrtc which is far more complex and would require me rewriting the entire camera capture logic.*
-
-
-
-The below modules/commands are not supported to run on linux servers and rely on windows:
-pywin32
-win32com
-cv2
-webbrowser.open
-
 # Echo Motion: AI-Powered Sign Language Assistant
 
 Echo Motion is a real-time, gesture-controlled digital assistant (Jarvis) that bridges the gap between sign language and computer interaction. Using Computer Vision and Large Language Models (LLMs), it translates finger patterns into complex system commands, web searches, and natural language conversations.
