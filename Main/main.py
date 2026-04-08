@@ -9,8 +9,8 @@ import requests
 from google import genai
 
 speaker = win32com.client.Dispatch("SAPI.SpVoice")
-newsapi = "5c0cc32bf90c4ad6a964f7695fa4e5cb"
-api_key = "AIzaSyCQe9q8Y06qetk1AbFDIIGcSigkDPZT1Dw"
+newsapi = ""
+api_key = ""
 client = genai.Client(api_key=api_key)
 prompter = "You are a sign language translator. I will give you a list of words, please turn them into a natural sentence and help with the users needs, answer whatever they ask."
 
