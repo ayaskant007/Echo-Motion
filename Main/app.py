@@ -24,7 +24,10 @@ def ensure_vision_libs():
 
 
 try:
-    import pywhatkit
+    if platform.system() == "Windows":
+        import pywhatkit
+    else:
+        pywhatkit = None
 except ImportError:
     pywhatkit = None
 
