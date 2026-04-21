@@ -1,13 +1,30 @@
-import streamlit as st
+import platform
+import threading
+from urllib.parse import quote_plus
+
 import cv2
 import mediapipe as mp
-import webbrowser
-import pywhatkit
+import numpy as np
 import requests
-import threading
-import pythoncom
-import win32com.client
+import streamlit as st
 from google import genai
+from PIL import Image
+
+try:
+    import pywhatkit
+except ImportError:
+    pywhatkit = None
+
+try:
+    import pythoncom
+    import win32com.client
+except ImportError:
+    pythoncom = None
+    win32com = None
+
+
+IS_WINDOWS = platform.system() == "Windows"
+HAS_TTS = pythoncom is not None and win32com is not None
 
 
 st.set_page_config(page_title="Echo Motion AI", layout="wide", page_icon="🤖")
@@ -29,9 +46,12 @@ with st.sidebar:
     news_key = st.text_input("News API Key", value="", type="password")
     
     st.markdown("### Controls")
-    if st.button("Start Camera" if not st.session_state.camera_active else "Stop Camera 🔴", use_container_width=True):
+    if st.button("Start Camera" if not st.session_state.camera_active else "Stop Camera", use_container_width=True):
         st.session_state.camera_active = not st.session_state.camera_active
         st.rerun()
+
+    if not IS_WINDOWS:
+        st.info("Hosted mode uses browser camera capture and disables Windows-only speech output.")
 
     st.markdown("---")
     st.markdown("### Sign Dictionary")
@@ -92,45 +112,92 @@ def update_chat_ui(placeholder):
             with st.chat_message(msg["role"]):
                 st.write(msg["text"])
 
+
+def append_chat(role, text):
+    st.session_state.chat_history.append({"role": role, "text": text})
+
 def speak(text, chat_placeholder):
-    st.session_state.chat_history.append({"role": "assistant", "text": text})
+    append_chat("assistant", text)
     update_chat_ui(chat_placeholder)
+
+    if not HAS_TTS:
+        return
 
     def _speak_thread():
         pythoncom.CoInitialize()
-        local_speaker = win32com.client.Dispatch("SAPI.SpVoice")
-        local_speaker.Speak(text)
-        pythoncom.CoUninitialize()
+        try:
+            local_speaker = win32com.client.Dispatch("SAPI.SpVoice")
+            local_speaker.Speak(text)
+        finally:
+            pythoncom.CoUninitialize()
 
     threading.Thread(target=_speak_thread, daemon=True).start()
+
+
+def gesture_from_landmarks(hand_landmarks):
+    thumb_tip = hand_landmarks.landmark[4]
+    thumb_knuckle = hand_landmarks.landmark[2]
+    fingers = [
+        int(thumb_tip.x < thumb_knuckle.x),
+        int(hand_landmarks.landmark[8].y < hand_landmarks.landmark[6].y),
+        int(hand_landmarks.landmark[12].y < hand_landmarks.landmark[10].y),
+        int(hand_landmarks.landmark[16].y < hand_landmarks.landmark[14].y),
+        int(hand_landmarks.landmark[20].y < hand_landmarks.landmark[18].y),
+    ]
+    return tuple(fingers)
+
+
+def analyze_frame(rgb_frame, hands, mp_drawing, mp_hands):
+    results = hands.process(rgb_frame)
+    annotated_frame = rgb_frame.copy()
+    detected_gesture = None
+
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            detected_gesture = gesture_from_landmarks(hand_landmarks)
+            mp_drawing.draw_landmarks(annotated_frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+            break
+
+    return detected_gesture, annotated_frame, bool(results.multi_hand_landmarks)
 
 def processCommand(command, client, chat_placeholder):
     command = command.lower()
 
-    st.session_state.chat_history.append({"role": "user", "text": f"[Signed: {command.capitalize()}]"})
+    append_chat("user", f"[Signed: {command.capitalize()}]")
     update_chat_ui(chat_placeholder)
 
     if "google" in command:
         speak("Opening Google", chat_placeholder)
-        webbrowser.open("https://google.com")
+        st.link_button("Open Google", "https://google.com")
     elif "hello" in command:
         speak("Hello! How can I help you?", chat_placeholder)
     elif "facebook" in command:
         speak("Opening Facebook", chat_placeholder)
-        webbrowser.open("https://facebook.com")
+        st.link_button("Open Facebook", "https://facebook.com")
     elif "youtube" in command:
         speak("Opening Youtube", chat_placeholder)
-        webbrowser.open("https://youtube.com")
+        st.link_button("Open YouTube", "https://youtube.com")
     elif "weather" in command:
         speak("Checking the weather...", chat_placeholder)
-        webbrowser.open("https://weather.com")
+        st.link_button("Open Weather", "https://weather.com")
     elif "surprise" in command:
         speak("Surprising You!", chat_placeholder)
-        webbrowser.open("https://www.youtube.com/watch?v=QDia3e12czc")
+        st.link_button("Watch Surprise Video", "https://www.youtube.com/watch?v=QDia3e12czc")
     elif "play" in command:
         song = command.replace("play", "").strip()
-        speak(f"Playing {song}", chat_placeholder)
-        pywhatkit.playonyt(song)
+        if not song:
+            speak("Say a song name after Play.", chat_placeholder)
+            return
+
+        speak(f"Searching YouTube for {song}", chat_placeholder)
+        search_url = f"https://www.youtube.com/results?search_query={quote_plus(song)}"
+        st.link_button(f"Search YouTube for {song}", search_url)
+
+        if IS_WINDOWS and pywhatkit is not None:
+            try:
+                pywhatkit.playonyt(song)
+            except Exception:
+                pass
     elif "stop" in command:
         speak("Stopping system.", chat_placeholder)
         st.session_state.camera_active = False
@@ -149,6 +216,10 @@ def processCommand(command, client, chat_placeholder):
         except Exception:
             speak("Couldn't reach the news server.", chat_placeholder)
     else:
+        if client is None:
+            speak("Please enter a Gemini API key in the sidebar first.", chat_placeholder)
+            return
+
         speak(f"Processing '{command}', connecting to Gemini...", chat_placeholder)
         try:
             prompter = "You are a sign language translator. I will give you a list of words, please turn them into a natural sentence and help with the users needs, answer whatever they ask."
@@ -203,7 +274,7 @@ gesture_map = {
 }
 
 with col2:
-    st.subheader("💬 Live Chat")
+    st.subheader("Live Chat")
     chat_placeholder = st.empty()
     update_chat_ui(chat_placeholder)
 
@@ -213,7 +284,7 @@ with col1:
     
     if st.session_state.camera_active:
         if not gemini_key:
-            st.error("⚠️ Please provide a Gemini API Key in the sidebar.")
+            st.error("Please provide a Gemini API Key in the sidebar.")
             st.session_state.camera_active = False
             st.rerun()
 
@@ -224,48 +295,57 @@ with col1:
             static_image_mode=False,
             max_num_hands=1,
             min_detection_confidence=0.98,
-            min_tracking_confidence=0.7
+            min_tracking_confidence=0.7,
         )
 
-        cap = cv2.VideoCapture(0)
-        
-        while cap.isOpened() and st.session_state.camera_active:
-            success, frame = cap.read()
-            if not success:
-                break
-                
-            frame = cv2.flip(frame, 1)
-            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = hands.process(rgb_frame)
+        if IS_WINDOWS:
+            cap = cv2.VideoCapture(0)
 
-            if results.multi_hand_landmarks:
-                for hand_landmarks in results.multi_hand_landmarks:
-                    thumb_tip = hand_landmarks.landmark[4]
-                    thumb_knuckle = hand_landmarks.landmark[2]
-                    fingers = [
-                        int(thumb_tip.x < thumb_knuckle.x),
-                        int(hand_landmarks.landmark[8].y < hand_landmarks.landmark[6].y),
-                        int(hand_landmarks.landmark[12].y < hand_landmarks.landmark[10].y),
-                        int(hand_landmarks.landmark[16].y < hand_landmarks.landmark[14].y),
-                        int(hand_landmarks.landmark[20].y < hand_landmarks.landmark[18].y)
-                    ]
-                    current_gesture = tuple(fingers)
+            if not cap.isOpened():
+                frame_placeholder.error("Could not open the webcam. Try hosted mode or check camera permissions.")
+            else:
+                while cap.isOpened() and st.session_state.camera_active:
+                    success, frame = cap.read()
+                    if not success:
+                        break
 
-                    if current_gesture != st.session_state.last_gesture:
-                        if current_gesture in gesture_map:
+                    frame = cv2.flip(frame, 1)
+                    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    current_gesture, annotated_frame, has_hand = analyze_frame(rgb_frame, hands, mp_drawing, mp_hands)
+
+                    if has_hand:
+                        if current_gesture != st.session_state.last_gesture and current_gesture in gesture_map:
                             gesture = gesture_map[current_gesture]
                             try:
                                 processCommand(gesture, client, chat_placeholder)
-                            except Exception as e:
+                            except Exception:
                                 pass
-                        st.session_state.last_gesture = current_gesture
+                            st.session_state.last_gesture = current_gesture
+                    else:
+                        st.session_state.last_gesture = None
 
-                    mp_drawing.draw_landmarks(rgb_frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+                    frame_placeholder.image(annotated_frame, channels="RGB", use_container_width=True)
+
+                cap.release()
+        else:
+            snapshot = st.camera_input("Capture a hand gesture from your browser camera")
+
+            if snapshot is None:
+                frame_placeholder.info("Capture a gesture to trigger a command. This hosted mode uses your browser camera, not the server webcam.")
             else:
-                st.session_state.last_gesture = None
+                image = Image.open(snapshot).convert("RGB")
+                rgb_frame = np.array(image)
+                current_gesture, annotated_frame, has_hand = analyze_frame(rgb_frame, hands, mp_drawing, mp_hands)
+                frame_placeholder.image(annotated_frame, channels="RGB", use_container_width=True)
 
-            frame_placeholder.image(rgb_frame, channels="RGB", use_container_width=True)
-            
-        cap.release()
+                if has_hand and current_gesture in gesture_map and current_gesture != st.session_state.last_gesture:
+                    gesture = gesture_map[current_gesture]
+                    try:
+                        processCommand(gesture, client, chat_placeholder)
+                    except Exception:
+                        pass
+                    st.session_state.last_gesture = current_gesture
+                elif not has_hand:
+                    st.info("No hand was detected in the capture. Try again with better lighting and a single hand in frame.")
     else:
         frame_placeholder.info("Camera is currently off. Click 'Start Camera' in the sidebar.")
