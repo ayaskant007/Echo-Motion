@@ -309,10 +309,10 @@ with col1:
         mp_hands = mp.solutions.hands
         mp_drawing = mp.solutions.drawing_utils
         hands = mp_hands.Hands(
-            static_image_mode=False,
+            static_image_mode=not IS_WINDOWS,
             max_num_hands=1,
-            min_detection_confidence=0.98,
-            min_tracking_confidence=0.7,
+            min_detection_confidence=0.7,
+            min_tracking_confidence=0.5,
         )
 
         if IS_WINDOWS:
@@ -352,6 +352,7 @@ with col1:
             else:
                 image = Image.open(snapshot).convert("RGB")
                 rgb_frame = np.array(image)
+                rgb_frame = cv2.flip(rgb_frame, 1)  # Crucial: match desktop mirror orientation for thumb logic
                 current_gesture, annotated_frame, has_hand = analyze_frame(rgb_frame, hands, mp_drawing, mp_hands)
                 frame_placeholder.image(annotated_frame, channels="RGB", use_container_width=True)
 
