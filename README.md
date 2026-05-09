@@ -1,8 +1,10 @@
 # Echo Motion: AI-Powered Sign Language Assistant
+# USE PYTHON VERSION 3.12
+
 Streamlit website url is: https://echomotionai.streamlit.app
 IT SLEEPS VERY OFTEN SO LET ME KNOW IF IT SLEPT
 
-Echo Motion is a real-time, gesture-controlled digital assistant (Jarvis) that bridges the gap between sign language and computer interaction. Using Computer Vision and Large Language Models (LLMs), it translates finger patterns into complex system commands, web searches, and natural language conversations.
+Echo Motion is a A SIGN LANGUAGE/GESTURE BASED AI ASSISTANT that fixes the gap between sign language and computer interaction. Using Computer Vision and Large Language Models (LLMs), it translates finger patterns into complex system commands, web searches, and natural language conversations.
 
 
 
