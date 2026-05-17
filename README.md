@@ -4,7 +4,7 @@
 Streamlit website url is: https://echomotionai.streamlit.app
 IT SLEEPS VERY OFTEN SO LET ME KNOW IF IT SLEPT
 
-Echo Motion is a A SIGN LANGUAGE/GESTURE BASED AI ASSISTANT that fixes the gap between sign language and computer interaction. Using Computer Vision and Large Language Models (LLMs), it translates finger patterns into complex system commands, web searches, and natural language conversations.
+A SIGN LANGUAGE/GESTURE BASED AI ASSISTANT that bridges the sign language/computer interaction gap is Echo Motion. It converts finger patterns to complex hands-free system commands, web searches and natural language conversations using Computer Vision and Large Language Models (LLMs).
 
 
 
@@ -12,15 +12,14 @@ Echo Motion is a A SIGN LANGUAGE/GESTURE BASED AI ASSISTANT that fixes the gap b
 
 ## Key Features
 
-* **32-Gesture Recognition:** Utilizes a complete binary finger-state map (Thumb to Pinky) for 32 unique commands.
-* **Gemini AI Integration:** Uses `gemini-3-flash` to turn raw signs into natural, helpful sentences.
-* **Web Dashboard:** A v v cool frontend built with **Streamlit** featuring live chat logs and real-time camera processing.
-* **Threaded Audio (Jarvis):** Custom Windows SAPI integration that allows Jarvis to speak in the background without freezing the video feed it doesnt work on the hosted streamlit website tho due to os limitations 🥀.
+32-Gesture Recognition: 32 different commands with a full binary finger-state map (Thumb to Pinky).
+* **gemini-3-flash** integration: Converts raw signs into natural, helpful sentences.
+* **Web Dashboard:** A v v cool frontend developed with **Streamlit** with live chat logs and real-time camera processing.
+Threaded Audio (Jarvis): Custom windows sapi integration, can be used to talk in the background without freezing the video stream, not working for the hosted streamlit website because of os limitations yet.
 * **Local Automation:**
-    * **Entertainment:** Play any song on YouTube via `pywhatkit` (a button appears on the web version due to server limitations 🥀 it doesnt auto open cuz it will open the site on the server itself not on the client's device 😭)
-    * **Information:** Fetch live headlines via News API or check the weather.
-    * **Web Navigation:** Instant access to Google, Facebook, and YouTube.
-
+    * **Video Playback:** Play any song on YouTube using pywhatkit (Due to server limitations, a button appears on web version of YouTube, if not, it will open the site on the server side, not on the device side, hence the reason for the 🥀 symbol)
+    * **Information**: Get real-time headlines with News API or get the weather.
+    Web Navigation: Quickly switch to Google, Facebook, and YouTube.
 ---
 
 ## Tech Stack
@@ -62,7 +61,7 @@ or just visit the goddamn link!!!
 
 ## The Gesture Map (Hand Dictionary)
 
-Echo Motion uses a binary state system `(Thumb, Index, Middle, Ring, Pinky)` where `1` is open and `0` is closed.
+It uses a  binary state system `(Thumb, Index, Middle, Ring, Pinky)` where `1` is open and `0` is closed.
 
 u can view the map its in the website on the sidebar 😋
 
