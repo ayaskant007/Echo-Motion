@@ -62,8 +62,6 @@ or just visit the Streamlit link!
 
 It uses a binary state system `(Thumb, Index, Middle, Ring, Pinky)` where `1` refers to open and `0` refers to closed.
 
-You can see the map its in the side bar of the web site.
+You can see the gesture map its in the side bar of the website.
 
 ## AI was just used for code debugging purposes.
-
-
