@@ -5,6 +5,21 @@ Streamlit Website URL is: https://echomotionai.streamlit.app
 
 A sign language and gesture-based AI assistant that connects sign language and computer interaction is Echo Motion. It translates finger patterns into complex hands-free system commands, web searches, and natural language conversations using computer vision and large language models (LLMs).
 
+Features
+32-Gesture Control: Works by using the binary finger state map (Thumb to Pinky) for 32 distinct gestures.
+
+* Integration with Gemini AI: Employs gemini-3-flash to convert raw signs into useful sentences.
+
+Web Interface: A modern interface designed using Streamlit which provides chat logs and camera stream functionality.
+
+Multi-threading Audio (Jarvis): Specialized Windows SAPI integration enabling Jarvis to talk while video processing does not pause.
+
+Entertainment: Ability to play any YouTube song using pywhatkit.
+
+Information: Access live news using News API and current weather reports.
+
+Internet: Quick navigation to Google, Facebook, and YouTube.
+
 ## Tech Stack
 
 * **Language:** Python 3.12
