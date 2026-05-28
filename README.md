@@ -43,11 +43,11 @@ or just visit the Streamlit link!
 
 ---
 
-## The Gesture Map (Hand Dictionary)
+## The Gesture Map (Dictionary of Hands)
 
-It uses a  binary state system `(Thumb, Index, Middle, Ring, Pinky)` where `1` is open and `0` is closed.
+It uses a binary state system `(Thumb, Index, Middle, Ring, Pinky)` where `1` refers to open and `0` refers to closed.
 
-You can view the map its in the website on the sidebar.
+You can see the map its in the side bar of the web site.
 
 ## AI was just used for code debugging purposes.
 
