@@ -2,7 +2,7 @@
 
 Streamlit Website URL is: https://echomotionai.streamlit.app
 
-Demo Video URL is: 
+Demo Video URL is: https://youtu.be/qyzW39SMC7o
 
 A sign language and gesture-based AI assistant that connects sign language and computer interaction is Echo Motion. It translates finger patterns into complex hands-free system commands, web searches, and natural language conversations using computer vision and large language models (LLMs).
 
