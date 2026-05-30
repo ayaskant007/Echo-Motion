@@ -25,10 +25,11 @@ Streamlit
 Win32Com
 ```
 
+---
+
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* Visit the Streamlit website link or follow the steps below.
 
 ### Executing program
 
@@ -63,6 +64,8 @@ or just visit the Streamlit link!
 ```
 If you encounter the mediapipe dependency error make sure you are using Python 3.12
 ```
+
+---
 
 ## License
 
