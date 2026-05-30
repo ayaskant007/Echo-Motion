@@ -1,32 +1,36 @@
-# Echo Motion: AI-Powered Sign Language Assistant
+# Echo Motion
+AI-Powered Sign Language Assistant
+
+A sign language and gesture-based AI assistant that connects sign language and computer interaction is Echo Motion. It translates finger patterns into complex hands-free system commands, web searches, and natural language conversations using computer vision and large language models (LLMs).
+
+---
 
 Streamlit Website URL is: https://echomotionai.streamlit.app
 
 Demo Video URL is: https://youtu.be/qyzW39SMC7o
 
-A sign language and gesture-based AI assistant that connects sign language and computer interaction is Echo Motion. It translates finger patterns into complex hands-free system commands, web searches, and natural language conversations using computer vision and large language models (LLMs).
-
-## Features
-
-* **32-Gesture Control:** Works by using the binary finger state map (Thumb to Pinky) for 32 unique gestures.
-* **Integration with Gemini AI:** Employs gemini-3-flash to convert raw signs into useful sentences.
-* **Web Interface:** A modern interface designed using Streamlit which provides chat logs and camera stream functionality.
-* **Multi-threading Audio (Jarvis):** Specialized Windows Speech to Text Integration enabling Jarvis to talk while video processing does not pause.
-* **Entertainment:** Ability to play any YouTube song using pywhatkit.
-* **Information:** Access live news using News API and current weather reports.
-* **Internet:** Quick navigation to Google, Facebook, and YouTube. (Provides direct  button links on the streamlit page)
-
-## Tech Stack
-
-* **Language:** Python 3.12 (Any other versions won't work due to the mediapipe dependency not working on other python versions)
-* **Vision:** OpenCV, MediaPipe for capturing image/video and recognizing hand patterns.
-* **Frontend:** Streamlit for the website ui/ux (frontend)
-* **Audio:** Win32Com, which is basically the built-in windows text to speech
-* **APIs:** NewsAPI for fetching the news, Google GenAI for gemini
-
 ---
 
-## Installation
+### Dependencies
+
+```
+Python 3.12
+Windows (Preferably, for the voice output if you need it)
+OpenCV
+MediaPipe
+NewsAPI
+Gemini API
+Google GenAI
+Streamlit
+Win32Com
+```
+
+### Installing
+
+* How/where to download your program
+* Any modifications needed to be made to files/folders
+
+### Executing program
 
 ### 1. Clone the Repository
 ```bash
@@ -53,6 +57,16 @@ python -m streamlit run "app.py"
 or just visit the Streamlit link!
 
 ---
+
+## Help
+
+```
+If you encounter the mediapipe dependency error make sure you are using Python 3.12
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
 
 **You can see the gesture map its in the side bar of the website.**
 
