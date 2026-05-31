@@ -65,10 +65,6 @@ or just visit the Streamlit link!
 If you encounter the mediapipe dependency error make sure you are using Python 3.12
 ```
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details
-
 **You can see the gesture map its in the side bar of the website.**
 
 **AI was just used for code debugging purposes.**
