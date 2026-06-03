@@ -67,4 +67,4 @@ If you encounter the mediapipe dependency error make sure you are using Python 3
 
 **You can see the gesture map its in the side bar of the website.**
 
-**AI was just used for code debugging purposes.**
+**AI was just used for code debugging purposes and to implement cross-platform compatibility with Streamlit.**
